@@ -1,6 +1,41 @@
 <?php
 
-include '../includes/ajouter.php';
+
+include '../includes/bd.php';
+
+$nom = "";
+$prenom = "";
+$date_nais = "";
+$adr = "";
+$email = "";
+$pass = "";
+
+
+if (isset($_POST['submit'])) {
+
+    //TODO: valider les données du formulaire
+
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $date_nais = $_POST['date_nais'];
+    $adr = $_POST['adr'];
+    $email = $_POST['email'];
+    //$pass = password_hash($_GET['pass'],PASSWORD_DEFAULT);
+
+    $pass = $_POST['pass'];
+
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
+    $sqli = mysqli_query($con, $sql);
+    if (mysqli_num_rows($sqli) >= 1) {
+        echo $error = "deja exist,  <a href='connexion.php'>connecter ?</a>";
+    } else {
+        $query = " INSERT INTO utilisateurs(nom,prenom,email,pass,date_nais,adr,role) VALUES ('$nom','$prenom','$email','$pass','$date_nais','$adr','1')";
+        mysqli_query($con, $query) or die("erreur base de données");
+        
+        header('location: index.php');
+    }
+}
+
 
 ?>
 <!doctype html>
@@ -54,11 +89,12 @@ include '../includes/ajouter.php';
     <div class=" vertical-center">
         <div class="container ">
             <div class="row d-flex justify-content-center">
-                <form method="GET" action="#">
+                <form method="POST" action="#">
                     <fieldset>
 
                         <legend class="text-center display-4">S'inscrire</legend>
-
+                        <?= isset($error) ? "<p style='color:red'>$error</p>" : ""; ?>
+           
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="nom">Nom</label>
@@ -85,6 +121,7 @@ include '../includes/ajouter.php';
                         </div>
 
                         <div class="form-group">
+                        
                             <label for="email">Email</label>
                             <input type="email" name="email" class="inpt" id="email" placeholder="Votre Email" required>
 

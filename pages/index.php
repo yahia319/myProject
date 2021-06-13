@@ -1,3 +1,10 @@
+<?php
+session_start();
+$logged = false;
+if(isset($_SESSION['email']) && $_SESSION['email']){
+   $logged = true;
+} 
+?>
 <!doctype html>
 <html lang="en">
 
@@ -41,11 +48,13 @@
 
                 <ul id="h" class="navbar-nav ml-auto">
 
-                    <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="connexion.php"><span class="fas fa-sign-in-alt "></span> Connexion</a></button>
-                    </li>
-
+                    <?php if($logged) : ?>
+                        <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="logout.php"><span class="fas fa-sign-in-alt "></span> Deconnecter <?= $_SESSION['email'] ?></a></button></li>
+                    
+                    <?php else : ?>
+                        <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="connexion.php"><span class="fas fa-sign-in-alt "></span> Connexion</a></button></li>
                     <li class="nav-item "><button id="insc-btn"><a class="nav-link active" href="inscrire.php"><span class="fa fa-user "></span> S'inscrire</a></button></li>
-
+                    <?php endif; ?>
                 </ul>
 
             </div>

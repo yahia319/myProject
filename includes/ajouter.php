@@ -1,4 +1,6 @@
 <?php
+
+
 include 'bd.php';
 
 $nom = "";
@@ -16,7 +18,9 @@ if (isset($_GET['submit'])) {
     $date_nais = $_GET['date_nais'];
     $adr = $_GET['adr'];
     $email = $_GET['email'];
-    $pass = password_hash($_GET['pass'],PASSWORD_DEFAULT);
+    //$pass = password_hash($_GET['pass'],PASSWORD_DEFAULT);
+
+    $pass = $_GET['pass'];
 
     $sql= "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
     $sqli= mysqli_query($con, $sql);

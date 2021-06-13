@@ -1,3 +1,36 @@
+<?php
+include '../includes/bd.php';
+
+session_start();
+
+if(isset($_SESSION['email']) && $_SESSION['email']){
+    header('Location:index.php?r='.$_SESSION['role']);
+    exit();
+}
+
+if (isset($_POST['submit'])) {
+    
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+
+    $sql= "SELECT * FROM utilisateurs WHERE email LIKE '$email' AND pass LIKE '$pass'";
+    $sqli= mysqli_query($con, $sql);
+    if(mysqli_num_rows($sqli)>=1)
+      {
+        $user = mysqli_fetch_assoc($sqli);
+        $role =  $user["role"];
+        $_SESSION['email'] = $email;
+        $_SESSION['role'] = $role;
+        header('Location:index.php?r=' . $role);
+       
+      }
+    else {
+        $error = "vérifie email et mot de passe";
+    }
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -52,22 +85,26 @@
         <div class="container ">
             <div class="form-row d-flex justify-content-center">
                 <div class="col-6">
-                    <form id="con" class="needs-validation">
+                
+                    <form id="con" class="needs-validation" action="connexion.php" method="POST">
 
                         <fieldset>
 
                             <legend id="c" class="text-center display-4">Connexion</legend>
 
+                            <?= isset($error) ? "<p style='color:red'>$error</p>" : ""; ?>
+           
+
                             <div id="mail" class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="inpt" id="email" placeholder="Email" required>
+                                <input type="email" name="email" id="email" class="inpt" id="email" placeholder="Email" required>
 
                             </div>
 
 
                             <div id="pas" class="form-group">
                                 <label for="pass">Mot de passe</label>
-                                <input type="password" class="inpt" id="pass" placeholder="Mot de passe" required>
+                                <input type="password" name="pass" class="inpt" id="pass" placeholder="Mot de passe" required>
                             </div>
 
                             <div class="text-center">
@@ -103,3 +140,4 @@
 </body>
 
 </html>
+
