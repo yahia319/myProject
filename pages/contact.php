@@ -1,11 +1,8 @@
 <?php
-include '../includes/footer.php';
 session_start();
 $logged = false;
-$role = 0;
 if (isset($_SESSION['email']) && $_SESSION['email']) {
     $logged = true;
-    $role = $_SESSION['role'];
 }
 ?>
 <!doctype html>
@@ -21,11 +18,11 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Page d'accueil</title>
+    <title>Mon Profil</title>
 
 </head>
 
-<body scroll="no" style="overflow: hidden">
+<body>
     <nav class="navbar navbar-dark bg-dark navbar-expand-md ">
         <div class="container-fluid">
 
@@ -38,20 +35,21 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
                 <ul class="navbar-nav">
 
                     <li class="nav-item ">
-                        <a class="nav-link active" href="index.php">Accueil</a>
+                        <a class="nav-link" href="index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
+                        <a class="nav-link active" href="contact.php">Contact</a>
                     </li>
 
                 </ul>
 
                 <ul id="h" class="navbar-nav ml-auto">
 
-                    <?php if ($logged) : ?>
+
+                <?php if ($logged) : ?>
                         <li class="nav-item "><a class="nav-link " href="profil.php"> Profil</a></li>
                         <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="logout.php"><span class="fas fa-sign-out-alt "></span> Se déconnecter </a></button></li>
                     <?php else : ?>
@@ -66,30 +64,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
 
     </nav>
 
-    <?php if ($role == 0) : ?>
 
-        <div id="demo" class="carousel slide" data-ride="carousel">
-
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="../img/image.jpg" alt="" width="1100" height="500">
-                </div>
-                <div class="carousel-item">
-                    <img src="../img/la.jpg" alt="" width="1100" height="500">
-                </div>
-                <div class="carousel-item">
-                    <img src="../img/myImage.jpg" alt="" width="1100" height="500">
-                </div>
-            </div>
-
-        </div>
-
-    <?php elseif ($role == 1) : ?>
-
-        <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> espace chercheur </h4>
-        
-
-    <?php endif; ?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

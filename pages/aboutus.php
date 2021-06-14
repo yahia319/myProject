@@ -1,11 +1,9 @@
 <?php
-include '../includes/footer.php';
 session_start();
 $logged = false;
-$role = 0;
+
 if (isset($_SESSION['email']) && $_SESSION['email']) {
     $logged = true;
-    $role = $_SESSION['role'];
 }
 ?>
 <!doctype html>
@@ -21,11 +19,11 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Page d'accueil</title>
+    <title>Mon Profil</title>
 
 </head>
 
-<body scroll="no" style="overflow: hidden">
+<body>
     <nav class="navbar navbar-dark bg-dark navbar-expand-md ">
         <div class="container-fluid">
 
@@ -38,10 +36,10 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
                 <ul class="navbar-nav">
 
                     <li class="nav-item ">
-                        <a class="nav-link active" href="index.php">Accueil</a>
+                        <a class="nav-link" href="index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="aboutus.php">A propros de nous</a>
+                        <a class="nav-link active" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
@@ -51,6 +49,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
 
                 <ul id="h" class="navbar-nav ml-auto">
 
+
                     <?php if ($logged) : ?>
                         <li class="nav-item "><a class="nav-link " href="profil.php"> Profil</a></li>
                         <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="logout.php"><span class="fas fa-sign-out-alt "></span> Se déconnecter </a></button></li>
@@ -58,6 +57,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
                         <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="connexion.php"><span class="fas fa-sign-in-alt "></span> Connexion</a></button></li>
                         <li class="nav-item "><button id="insc-btn"><a class="nav-link active" href="inscrire.php"><span class="fa fa-user "></span> S'inscrire</a></button></li>
                     <?php endif; ?>
+
                 </ul>
 
             </div>
@@ -65,32 +65,23 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
         </div>
 
     </nav>
+    <div style="margin-top: 200px;">
+        <div class="jumbotron ">
+            <h1 class="text-center">A propros nous</h1><br>
 
-    <?php if ($role == 0) : ?>
-
-        <div id="demo" class="carousel slide" data-ride="carousel">
-
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="../img/image.jpg" alt="" width="1100" height="500">
-                </div>
-                <div class="carousel-item">
-                    <img src="../img/la.jpg" alt="" width="1100" height="500">
-                </div>
-                <div class="carousel-item">
-                    <img src="../img/myImage.jpg" alt="" width="1100" height="500">
-                </div>
-            </div>
-
+            <h5>
+                Notre Université Abdelhamid Mehri Constantine 02 a pour projet de réaliser un laboratoire de recherches au sein de l’établissement universitaire ceci a pour but
+                d’encourager les recherches scientifiques et donc qui va aussi permettre d’offrir un grand plus et une meilleure expérience et formation pour ses étudiants.
+                Donc nous en tant qu’informaticiens nous avons les compétences et les ressources nécessaires pour informatiser ce projet qui consiste à réaliser un site ou
+                une application web qui aura donc pour but de facilité le travail des chercheurs et autres employés du « UC2 Smart Campus » et aussi la gestion du laboratoire.
+                Les laboratoires constituent le potentiel de recherche de l'Université de Constantine 02 Abdelhamid Mehri. Ils couvrent l'ensemble des disciplines scientifiques
+                qui mobilisent enseignants-chercheurs, ingénieurs et doctorants. Ces équipes collaborent dans des projets interdisciplinaires à fort enjeux sociétaux.
+                Ce site facilite et améliore la gestion des différents laboratoires, projets, équipes et autres membres du personnel et qui offre une meilleure expérience
+                de la recherche scientifique au sein du campus.
+            </h5>
         </div>
-
-    <?php elseif ($role == 1) : ?>
-
-        <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> espace chercheur </h4>
-        
-
-    <?php endif; ?>
-
+    </div>
+    <?php include '../includes/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 

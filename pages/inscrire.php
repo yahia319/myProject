@@ -1,7 +1,8 @@
 <?php
-
-
 include '../includes/bd.php';
+session_start();
+
+
 
 $nom = "";
 $prenom = "";
@@ -28,12 +29,12 @@ if (isset($_POST['submit'])) {
     $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
     $sqli = mysqli_query($con, $sql);
     if (mysqli_num_rows($sqli) >= 1) {
-        echo $error = "deja exist,  <a href='connexion.php'>connecter ?</a>";
+       $error = "deja exist,  <a href='connexion.php'>connecter ?</a>";
     } else {
         $query = " INSERT INTO utilisateurs(nom,prenom,email,pass,date_nais,adr,role) VALUES ('$nom','$prenom','$email','$pass','$date_nais','$adr','1')";
         mysqli_query($con, $query) or die("erreur base de données");
-        
-        header('location: index.php');
+        $connecter = "Vous êtes inscrit maintenant,  <a href='connexion.php'>connecter ?</a>";
+      
     }
 }
 
@@ -57,7 +58,7 @@ if (isset($_POST['submit'])) {
 <body style="background-image: url('../img/image.jpg'); background-repeat: no-repeat; background-size: cover; color: white;backdrop-filter: blur(10px);">
 
 
-    <nav class="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md ">
         <div class="container-fluid">
 
 
@@ -72,10 +73,10 @@ if (isset($_POST['submit'])) {
                         <a class="nav-link" href="index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">A propros de nous</a>
+                        <a class="nav-link" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="contact.php">Contact</a>
                     </li>
 
                 </ul>
@@ -90,12 +91,12 @@ if (isset($_POST['submit'])) {
     <div class=" vertical-center">
         <div class="container ">
             <div class="row d-flex justify-content-center">
-                <form method="POST" action="#">
+                <form method="POST" action="" style="margin-bottom: 120px;">
                     <fieldset>
 
                         <legend class="text-center display-4">S'inscrire</legend>
                         <?= isset($error) ? "<p style='color:red'>$error</p>" : ""; ?>
-           
+                        <?= isset($connecter) ? "<p style='color:green'>$connecter</p>" : ""; ?>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="nom">Nom</label>
@@ -144,15 +145,7 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-
-            <hr><br>
-            <p class="text-center">Copyright © Smart Campus UC2. Tous les droits sont réservés.</p><br>
-
-        </div>
-
-    </footer>
+   
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

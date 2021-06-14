@@ -1,6 +1,6 @@
 <?php
 include '../includes/bd.php';
-
+include '../includes/footer.php';
 session_start();
 
 if(isset($_SESSION['email']) && $_SESSION['email']){
@@ -19,8 +19,11 @@ if (isset($_POST['submit'])) {
       {
         $user = mysqli_fetch_assoc($sqli);
         $role =  $user["role"];
+        $id =  $user["id"];
+        $_SESSION['id'] = $id;
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
+    
         header('Location:index.php?r=' . $role);
        
       }
@@ -47,7 +50,7 @@ if (isset($_POST['submit'])) {
 </head>
 
 
-<body style="background-image: url('../img/image.jpg'); background-repeat: no-repeat; background-size: cover; color: white;backdrop-filter: blur(10px);">
+<body style="background-image: url('../img/image.jpg'); background-repeat: no-repeat; background-size: cover; color: white; backdrop-filter: blur(10px);">
 
 
     <nav class="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
@@ -121,17 +124,6 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
     </div>
-
-    <footer>
-
-        <div class="container">
-
-            <hr><br>
-            <p class="text-center">Copyright © Smart Campus UC2. Tous les droits sont réservés.</p><br>
-
-        </div>
-
-    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

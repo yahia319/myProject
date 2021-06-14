@@ -18,12 +18,11 @@
 
 
 
-    <footer>
+    <footer class="fixed-bottom">
         <div class="container">
 
-            <hr><br>
-            <p class="text-center">Copyright © Smart Campus UC2. Tous les droits sont réservés.</p><br>
-
+            <hr>
+            <p class="text-center">Copyright © Smart Campus UC2. Tous les droits sont réservés.</p>
         </div>
 
     </footer>
