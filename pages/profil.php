@@ -47,7 +47,7 @@ $id = $_SESSION['id'];
                 <ul id="h" class="navbar-nav ml-auto">
 
 
-                    <li class="nav-item "><a class="nav-link active" href="profil.php"> Profil</a></li>
+                    <li class="nav-item "><a class="nav-link active" href="profil.php">Mon Profil</a></li>
                     <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="logout.php"><span class="fas fa-sign-out-alt "></span> Se déconnecter </a></button></li>
 
 
@@ -73,7 +73,7 @@ $id = $_SESSION['id'];
     ?>
 
     <div id="tab" class="container">
-        <p class="display-4 text-center j" style="color: white;">Mes Information</p>
+        <p class="display-4 text-center cap" style="color: white;">Mes Information</p>
         <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
             <tbody>
@@ -102,15 +102,15 @@ $id = $_SESSION['id'];
         </table>
 
         <?php if ($result->num_rows > 0) : ?>
-            <p class="display-4 text-center j" style="margin-top: 50px; color: white;">Mes Production Sientifique</p>
+            <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Mes Production Sientifique</p>
 
             <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
                 <tbody>
                     <tr>
                         <th>Nom PS </th>
-                        <th>Catégorie  </th>
-                        <th>Description  </th>
+                        <th>Catégorie </th>
+                        <th>Description </th>
 
                     </tr>
                     <?php while ($row = mysqli_fetch_assoc($result)) : ?>
