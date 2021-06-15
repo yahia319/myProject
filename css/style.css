@@ -132,3 +132,17 @@
     tr:hover {
         color: white !important;
     }
+
+    .modifier, .modifier:hover {
+        text-decoration: none;
+        color: white;
+    }
+
+    #modifier-btn {
+        border-radius: 25px;
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
+        -ms-border-radius: 25px;
+        -o-border-radius: 25px;
+        margin-top: 40px;
+    }

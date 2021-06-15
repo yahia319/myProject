@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
     $description = $_POST['desc'];
 
     $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
-    mysqli_query($con, $query) or die("erreur base de données");
+    mysqli_query($con, $query) or die(mysqli_error($con));
 }
 
 ?>
@@ -149,6 +149,50 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
 
+        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#ch">Afficher list chercheur</button>
+        <div id="ch" class="collapse">
+            <?php
+            $query = "SELECT * FROM utilisateurs";
+
+            $users = mysqli_query($con, $query);
+
+
+
+            if ($users->num_rows > 0) : ?>
+                <div class="container">
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheur</p>
+
+                    <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
+
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prenom </th>
+                                <th>Contact </th>
+                                <th>Date de naissance </th>
+                                <th>Adresse </th>
+
+                            </tr>
+                            <?php while ($row = mysqli_fetch_assoc($users)) : ?>
+
+
+                                <tr>
+                                    <td><?= $row["nom"] ?></td>
+                                    <td><?= $row["prenom"] ?></td>
+                                    <td><?= $row["email"] ?></td>
+                                    <td><?= $row["date_nais"] ?></td>
+                                    <td><?= $row["adr"] ?></td>
+                                </tr>
+
+                            <?php endwhile; ?>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            <?php endif; ?>
+
+        </div>
 
         <script type="text/javascript">
             document.title = "Espace Chercheur";

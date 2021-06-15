@@ -58,10 +58,6 @@ $id = $_SESSION['id'];
         </div>
 
     </nav>
-    <div>
-
-    </div>
-
 
     <?php
     $sql = "SELECT * FROM utilisateurs WHERE id ='$id' ";
@@ -80,26 +76,35 @@ $id = $_SESSION['id'];
                 <tr>
                     <th>Nom : </th>
                     <td><?= $user['nom'] ?></td>
+
                 </tr>
                 <tr>
                     <th>Prenom : </th>
                     <td><?= $user['prenom'] ?></td>
+
                 </tr>
                 <tr>
                     <th>Email : </th>
                     <td><?= $user['email'] ?></td>
+
                 </tr>
                 <tr>
                     <th>Date de naissance : </th>
                     <td><?= $user['date_nais'] ?></td>
+
                 </tr>
                 <tr>
                     <th>Adresse : </th>
                     <td><?= $user['adr'] ?></td>
+
                 </tr>
             </tbody>
 
         </table>
+        <div class="text-center"> <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier les info</button></a></div>
+
+
+
 
         <?php if ($result->num_rows > 0) : ?>
             <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Mes Production Sientifique</p>
@@ -120,6 +125,7 @@ $id = $_SESSION['id'];
                             <td><?= $row["nom_ps"] ?></td>
                             <td><?= $row["categorie_ps"] ?></td>
                             <td><?= $row["description"] ?></td>
+
                         </tr>
 
                     <?php endwhile; ?>
