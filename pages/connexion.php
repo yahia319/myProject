@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) {
             <div class="form-row d-flex justify-content-center">
                 <div class="col-6">
                 
-                    <form id="con" class="needs-validation" action="connexion.php" method="POST">
+                    <form id="con" class="needs-validation form" action="connexion.php" method="POST">
 
                         <fieldset>
 

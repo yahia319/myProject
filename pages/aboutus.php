@@ -67,7 +67,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     </nav>
     <div style="margin-top: 200px;">
         <div class="jumbotron ">
-            <h1 class="text-center">A propros nous</h1><br>
+            <h1 class="text-center display-4">A propros nous</h1><br>
 
             <h5>
                 Notre Université Abdelhamid Mehri Constantine 02 a pour projet de réaliser un laboratoire de recherches au sein de l’établissement universitaire ceci a pour but

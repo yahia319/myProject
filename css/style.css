@@ -5,7 +5,6 @@
 
     footer {
         background-color: #40474e;
-        background-size: cover;
         color: white;
     }
 
@@ -66,10 +65,16 @@
         border-color: rgb(9, 139, 172);
     }
 
-    form {
+    .form {
         background: rgba(0, 0, 0, 0.3);
         padding: 40px;
         padding-top: 50px;
+        border-radius: 25px;
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
+        -ms-border-radius: 25px;
+        -o-border-radius: 25px;
+        color: white;
     }
 
     legend {
@@ -114,4 +119,16 @@
 
     .p {
         margin-top: 20px;
+    }
+
+    table {
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .j {
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    tr:hover {
+        color: white !important;
     }

@@ -1,12 +1,27 @@
 <?php
-include '../includes/footer.php';
+include '../includes/bd.php';
 session_start();
 $logged = false;
 $role = 0;
 if (isset($_SESSION['email']) && $_SESSION['email']) {
     $logged = true;
     $role = $_SESSION['role'];
+    $id = $_SESSION['id'];
 }
+
+$nom = "";
+$categorie = "";
+$description = "";
+if (isset($_POST['submit'])) {
+
+    $nom = $_POST['nom'];
+    $categorie = $_POST['categorie'];
+    $description = $_POST['desc'];
+
+    $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
+    mysqli_query($con, $query) or die("erreur base de données");
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,11 +36,11 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Page d'accueil</title>
+    <title></title>
 
 </head>
 
-<body scroll="no" style="overflow: hidden">
+<body>
     <nav class="navbar navbar-dark bg-dark navbar-expand-md ">
         <div class="container-fluid">
 
@@ -84,10 +99,64 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
 
         </div>
 
+
+        <script type="text/javascript">
+            document.title = "Page d'accueil"
+        </script>
+
     <?php elseif ($role == 1) : ?>
 
-        <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> espace chercheur </h4>
-        
+        <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Chercheur </h4>
+
+        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#demo">Fournir des Producrions Scientifiques</button>
+        <div id="demo" class="collapse">
+            <div class=" vertical-center">
+                <div class="container ">
+                    <div class="row d-flex justify-content-center">
+                        <form method="POST" action="" class="form" style="margin-bottom: 200px;">
+                            <fieldset>
+
+                                <legend class="text-center display-4">Fournir Production Sientifique</legend>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+
+                                        <label for="nom">Nom du PS</label>
+                                        <input type="text" name="nom" class="inpt" id="nom" placeholder="Nom du production sientifique" required>
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="categorie">Catégorie</label>
+                                        <input type="text" name="categorie" class="inpt" id="categorie" placeholder="Article,livre,conference..." required>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="desc">Description</label>
+                                    <textarea name="desc" class="inpt d-block" id="desc" rows="3" placeholder="Description du Production Sientifique"></textarea>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" name="submit" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Fournir</button>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            document.title = "Espace Chercheur";
+            var body = document.getElementsByTagName('body')[0];
+            body.style.backgroundImage = 'url(../img/la.jpg)';
+            body.style.backgroundRepeat = 'no-repeat';
+            body.style.backgroundSize = 'cover';
+        </script>
 
     <?php endif; ?>
 

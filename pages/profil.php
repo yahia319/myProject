@@ -59,15 +59,83 @@ $id = $_SESSION['id'];
 
     </nav>
     <div>
-        
+
     </div>
+
+
     <?php
     $sql = "SELECT * FROM utilisateurs WHERE id ='$id' ";
     $sqli = mysqli_query($con, $sql);
-    $user = mysqli_fetch_assoc($sqli); ?>
-    <p> your name <?= $user['nom'] ?></p>
+    $user = mysqli_fetch_assoc($sqli);
 
-   
+    $query = "SELECT * FROM `production_sientifique` WHERE `num_chercheur` ='$id' ";
+    $result = mysqli_query($con, $query);
+    ?>
+
+    <div id="tab" class="container">
+        <p class="display-4 text-center j" style="color: white;">Mes Information</p>
+        <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
+
+            <tbody>
+                <tr>
+                    <th>Nom : </th>
+                    <td><?= $user['nom'] ?></td>
+                </tr>
+                <tr>
+                    <th>Prenom : </th>
+                    <td><?= $user['prenom'] ?></td>
+                </tr>
+                <tr>
+                    <th>Email : </th>
+                    <td><?= $user['email'] ?></td>
+                </tr>
+                <tr>
+                    <th>Date de naissance : </th>
+                    <td><?= $user['date_nais'] ?></td>
+                </tr>
+                <tr>
+                    <th>Adresse : </th>
+                    <td><?= $user['adr'] ?></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <?php if ($result->num_rows > 0) : ?>
+            <p class="display-4 text-center j" style="margin-top: 50px; color: white;">Mes Production Sientifique</p>
+
+            <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
+
+                <tbody>
+                    <tr>
+                        <th>Nom PS </th>
+                        <th>Catégorie  </th>
+                        <th>Description  </th>
+
+                    </tr>
+                    <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+
+
+                        <tr>
+                            <td><?= $row["nom_ps"] ?></td>
+                            <td><?= $row["categorie_ps"] ?></td>
+                            <td><?= $row["description"] ?></td>
+                        </tr>
+
+                    <?php endwhile; ?>
+                </tbody>
+
+            </table>
+        <?php endif; ?>
+    </div>
+
+
+    <script type="text/javascript">
+        var body = document.getElementsByTagName('body')[0];
+        body.style.backgroundImage = 'url(../img/myImage.jpg)';
+        body.style.backgroundRepeat = 'no-repeat';
+        body.style.backgroundSize = 'cover';
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

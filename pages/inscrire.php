@@ -22,19 +22,18 @@ if (isset($_POST['submit'])) {
     $date_nais = $_POST['date_nais'];
     $adr = $_POST['adr'];
     $email = $_POST['email'];
-    //$pass = password_hash($_GET['pass'],PASSWORD_DEFAULT);
+    //$pass = password_hash($_GET['pass'],PASSWORD_DEFAULT)
 
     $pass = $_POST['pass'];
 
     $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
     $sqli = mysqli_query($con, $sql);
     if (mysqli_num_rows($sqli) >= 1) {
-       $error = "deja exist,  <a href='connexion.php'>connecter ?</a>";
+        $error = "deja exist,  <a href='connexion.php'>connecter ?</a>";
     } else {
         $query = " INSERT INTO utilisateurs(nom,prenom,email,pass,date_nais,adr,role) VALUES ('$nom','$prenom','$email','$pass','$date_nais','$adr','1')";
         mysqli_query($con, $query) or die("erreur base de données");
         $connecter = "Vous êtes inscrit maintenant,  <a href='connexion.php'>connecter ?</a>";
-      
     }
 }
 
@@ -91,7 +90,7 @@ if (isset($_POST['submit'])) {
     <div class=" vertical-center">
         <div class="container ">
             <div class="row d-flex justify-content-center">
-                <form method="POST" action="" style="margin-bottom: 120px;">
+                <form method="POST" class="form" action="" style="margin-bottom: 120px;">
                     <fieldset>
 
                         <legend class="text-center display-4">S'inscrire</legend>
@@ -99,6 +98,7 @@ if (isset($_POST['submit'])) {
                         <?= isset($connecter) ? "<p style='color:green'>$connecter</p>" : ""; ?>
                         <div class="form-row">
                             <div class="form-group col-md-6">
+
                                 <label for="nom">Nom</label>
                                 <input type="text" name="nom" class="inpt" id="nom" placeholder="Votre Nom" required>
 
@@ -123,7 +123,7 @@ if (isset($_POST['submit'])) {
                         </div>
 
                         <div class="form-group">
-                        
+
                             <label for="email">Email</label>
                             <input type="email" name="email" class="inpt" id="email" placeholder="Votre Email" required>
 
@@ -145,7 +145,7 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 
-   
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
