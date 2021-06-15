@@ -15,19 +15,13 @@ if (isset($_POST['submit'])) {
     $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
     $sqli = mysqli_query($con, $sql);
     if (mysqli_num_rows($sqli) >= 1) {
-
-        $ema = "SELECT email FROM utilisateurs WHERE id LIKE'$id'";
-        $em = mysqli_query($con, $ema);
-
-        if ($em != $email) {
             $error = "cette email deja exist";
-        }
+       
     } else {
-        $_SESSION['email'] = $email;
         $query = "UPDATE `utilisateurs` SET `nom`='$nom ',`prenom`='$prenom ',`email`='$email ',`date_nais`='$date_nais',`adr`='$adr ' WHERE id= '$id'";
         $result = mysqli_query($con, $query) or die(mysqli_error($con));
     }
-}
+} 
 
 ?>
 
