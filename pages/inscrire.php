@@ -94,8 +94,8 @@ if (isset($_POST['submit'])) {
                     <fieldset>
 
                         <legend class="text-center display-4">S'inscrire</legend>
-                        <?= isset($error) ? "<p style='color:red'>$error</p>" : ""; ?>
-                        <?= isset($connecter) ? "<p style='color:green'>$connecter</p>" : ""; ?>
+                        <?= isset($error) ? "<p class= 'alert alert-danger'>$error</p>" : ""; ?>
+                        <?= isset($connecter) ? "<p class= 'alert alert-success'>$connecter</p>" : ""; ?>
                         <div class="form-row">
                             <div class="form-group col-md-6">
 

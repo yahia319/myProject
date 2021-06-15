@@ -3,31 +3,29 @@ include '../includes/bd.php';
 include '../includes/footer.php';
 session_start();
 
-if(isset($_SESSION['email']) && $_SESSION['email']){
+if (isset($_SESSION['email']) && $_SESSION['email']) {
     header('Location:index.php');
     exit();
 }
 
 if (isset($_POST['submit'])) {
-    
+
     $email = $_POST['email'];
     $pass = $_POST['pass'];
 
-    $sql= "SELECT * FROM utilisateurs WHERE email LIKE '$email' AND pass LIKE '$pass'";
-    $sqli= mysqli_query($con, $sql);
-    if(mysqli_num_rows($sqli)>=1)
-      {
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE '$email' AND pass LIKE '$pass'";
+    $sqli = mysqli_query($con, $sql);
+
+    if (mysqli_num_rows($sqli) >= 1) {
         $user = mysqli_fetch_assoc($sqli);
         $role =  $user["role"];
         $id =  $user["id"];
         $_SESSION['id'] = $id;
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
-    
+
         header('Location:index.php?r=' . $role);
-       
-      }
-    else {
+    } else {
         $error = "vérifie email et mot de passe";
     }
 }
@@ -88,15 +86,15 @@ if (isset($_POST['submit'])) {
         <div class="container ">
             <div class="form-row d-flex justify-content-center">
                 <div class="col-6">
-                
+
                     <form id="con" class="needs-validation form" action="connexion.php" method="POST">
 
                         <fieldset>
 
                             <legend id="c" class="text-center display-4">Connexion</legend>
 
-                            <?= isset($error) ? "<p style='color:red'>$error</p>" : ""; ?>
-           
+                            <?= isset($error) ? "<p class= 'alert alert-danger'>$error</p>" : ""; ?>
+
 
                             <div id="mail" class="form-group">
                                 <label for="email">Email</label>
@@ -132,4 +130,3 @@ if (isset($_POST['submit'])) {
 </body>
 
 </html>
-

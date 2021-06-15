@@ -14,14 +14,22 @@ if (isset($_POST['submit'])) {
 
     $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
     $sqli = mysqli_query($con, $sql);
-    if (mysqli_num_rows($sqli) >= 1) {
+    $users = mysqli_fetch_assoc($sqli);
+
+    if ($users['id'] != $id) {
+        if (mysqli_num_rows($sqli) >= 1) {
+
             $error = "cette email deja exist";
-       
-    } else {
-        $query = "UPDATE `utilisateurs` SET `nom`='$nom ',`prenom`='$prenom ',`email`='$email ',`date_nais`='$date_nais',`adr`='$adr ' WHERE id= '$id'";
+        }
+        $query = "UPDATE utilisateurs SET nom='$nom',prenom='$prenom',email='$email',date_nais='$date_nais',adr='$adr' WHERE id= '$id'";
         $result = mysqli_query($con, $query) or die(mysqli_error($con));
+        $saved = "Les modification sont enregistrer";
+    } else {
+        $query = "UPDATE utilisateurs SET nom='$nom',prenom='$prenom',email='$email',date_nais='$date_nais',adr='$adr' WHERE id= '$id'";
+        $result = mysqli_query($con, $query) or die(mysqli_error($con));
+        $saved = "Les modification sont enregistrer";
     }
-} 
+}
 
 ?>
 
@@ -89,7 +97,8 @@ if (isset($_POST['submit'])) {
                     <fieldset>
 
                         <legend class="text-center display-4">Modifier Les Info</legend>
-                        <?= isset($error) ? "<p style='color:red'>$error</p>" : ""; ?>
+                        <?= isset($error) ? "<p class= 'alert alert-danger'>$error</p>" : ""; ?>
+                        <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
                         <div class="form-row">
                             <div class="form-group col-md-6">
 
