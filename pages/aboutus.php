@@ -65,23 +65,32 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
         </div>
 
     </nav>
-    <div style="margin-top: 200px;">
-        <div class="jumbotron ">
-            <h1 class="text-center display-4">A propros nous</h1><br>
 
-            <h5>
-                Notre Université Abdelhamid Mehri Constantine 02 a pour projet de réaliser un laboratoire de recherches au sein de l’établissement universitaire ceci a pour but
-                d’encourager les recherches scientifiques et donc qui va aussi permettre d’offrir un grand plus et une meilleure expérience et formation pour ses étudiants.
-                Donc nous en tant qu’informaticiens nous avons les compétences et les ressources nécessaires pour informatiser ce projet qui consiste à réaliser un site ou
-                une application web qui aura donc pour but de facilité le travail des chercheurs et autres employés du « UC2 Smart Campus » et aussi la gestion du laboratoire.
-                Les laboratoires constituent le potentiel de recherche de l'Université de Constantine 02 Abdelhamid Mehri. Ils couvrent l'ensemble des disciplines scientifiques
-                qui mobilisent enseignants-chercheurs, ingénieurs et doctorants. Ces équipes collaborent dans des projets interdisciplinaires à fort enjeux sociétaux.
-                Ce site facilite et améliore la gestion des différents laboratoires, projets, équipes et autres membres du personnel et qui offre une meilleure expérience
-                de la recherche scientifique au sein du campus.
-            </h5>
-        </div>
+    <div class="cap " style="margin-top: 200px;">
+        <h1 class="text-center display-4">A propros nous</h1><br>
+
+        <h5>
+            Notre Université Abdelhamid Mehri Constantine 02 a pour projet de réaliser un laboratoire de recherches au sein de l’établissement universitaire ceci a pour but
+            d’encourager les recherches scientifiques et donc qui va aussi permettre d’offrir un grand plus et une meilleure expérience et formation pour ses étudiants.
+            Donc nous en tant qu’informaticiens nous avons les compétences et les ressources nécessaires pour informatiser ce projet qui consiste à réaliser un site ou
+            une application web qui aura donc pour but de facilité le travail des chercheurs et autres employés du « UC2 Smart Campus » et aussi la gestion du laboratoire.
+            Les laboratoires constituent le potentiel de recherche de l'Université de Constantine 02 Abdelhamid Mehri. Ils couvrent l'ensemble des disciplines scientifiques
+            qui mobilisent enseignants-chercheurs, ingénieurs et doctorants. Ces équipes collaborent dans des projets interdisciplinaires à fort enjeux sociétaux.
+            Ce site facilite et améliore la gestion des différents laboratoires, projets, équipes et autres membres du personnel et qui offre une meilleure expérience
+            de la recherche scientifique au sein du campus.
+        </h5>
     </div>
+
     <?php include '../includes/footer.php'; ?>
+
+    <script type="text/javascript">
+        var body = document.getElementsByTagName('body')[0];
+        body.style.backgroundImage = 'url(../img/image3.jpg)';
+        body.style.backgroundRepeat = 'no-repeat';
+        body.style.backgroundSize = 'cover';
+        body.style.color = 'white';
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 

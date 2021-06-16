@@ -11,6 +11,7 @@ if (isset($_POST['submit'])) {
     $date_nais = $_POST['date_nais'];
     $adr = $_POST['adr'];
     $email = $_POST['email'];
+    $pass = $_POST['pass'];
 
     $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
     $sqli = mysqli_query($con, $sql);
@@ -21,11 +22,11 @@ if (isset($_POST['submit'])) {
 
             $error = "cette email deja exist";
         }
-        $query = "UPDATE utilisateurs SET nom='$nom',prenom='$prenom',email='$email',date_nais='$date_nais',adr='$adr' WHERE id= '$id'";
+        $query = "UPDATE utilisateurs SET nom='$nom',prenom='$prenom',email='$email',pass='$pass',date_nais='$date_nais',adr='$adr' WHERE id= '$id'";
         $result = mysqli_query($con, $query) or die(mysqli_error($con));
         $saved = "Les modification sont enregistrer";
     } else {
-        $query = "UPDATE utilisateurs SET nom='$nom',prenom='$prenom',email='$email',date_nais='$date_nais',adr='$adr' WHERE id= '$id'";
+        $query = "UPDATE utilisateurs SET nom='$nom',prenom='$prenom',email='$email',pass='$pass',date_nais='$date_nais',adr='$adr' WHERE id= '$id'";
         $result = mysqli_query($con, $query) or die(mysqli_error($con));
         $saved = "Les modification sont enregistrer";
     }
@@ -129,6 +130,12 @@ if (isset($_POST['submit'])) {
 
                             <label for="email">Email</label>
                             <input type="email" name="email" class="inpt" id="email" placeholder="modifier Email" required>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label for="pass">Mot de passe</label>
+                            <input type="password" name="pass" class="inpt" id="pass" placeholder="modifier mot de passe" required>
 
                         </div>
 

@@ -7,6 +7,9 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     $logged = true;
     $role = $_SESSION['role'];
     $id = $_SESSION['id'];
+    $equipe = $_SESSION['equipe'];
+    $labo = $_SESSION['labo'];
+    $projet = $_SESSION['projet'];
 }
 
 $nom = "";
@@ -20,6 +23,7 @@ if (isset($_POST['submit'])) {
 
     $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
     mysqli_query($con, $query) or die(mysqli_error($con));
+    $saved = "Vous avez ajouter un PS";
 }
 
 ?>
@@ -105,62 +109,137 @@ if (isset($_POST['submit'])) {
         </script>
 
     <?php elseif ($role == 1) : ?>
+        <!--************************************************************************************************************* -->
+
 
         <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Chercheur </h4>
 
-        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#demo">Fournir des Producrions Scientifiques</button>
-        <div id="demo" class="collapse">
-            <div class=" vertical-center">
-                <div class="container ">
-                    <div class="row d-flex justify-content-center">
-                        <form method="POST" action="" class="form" style="margin-bottom: 200px;">
-                            <fieldset>
 
-                                <legend class="text-center display-4">Fournir Production Sientifique</legend>
+        <div class=" container">
+            <ul id="list">
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
+                <a href="" data-toggle="collapse" data-target="#demo">
+                    <li>Fournir des Producrions Scientifiques</li>
+                </a>
+                <a href="" data-toggle="collapse" data-target="#ch">
+                    <li>Afficher list chercheurs</li>
+                </a>
+                <a href="" data-toggle="collapse" data-target="#equipe">
+                    <li>Afficher list chercheur du meme equipe</li>
+                </a>
+                <a href="" data-toggle="collapse" data-target="#labo">
+                    <li>Afficher list chercheur du meme laboratoire</li>
+                </a>
+                <a href="" data-toggle="collapse" data-target="#projet">
+                    <li>Afficher list chercheur du meme projet</li>
+                </a>
 
-                                        <label for="nom">Nom du PS</label>
-                                        <input type="text" name="nom" class="inpt" id="nom" placeholder="Nom du production sientifique" required>
-
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="categorie">Catégorie</label>
-                                        <input type="text" name="categorie" class="inpt" id="categorie" placeholder="Article,livre,conference..." required>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="desc">Description</label>
-                                    <textarea name="desc" class="inpt d-block" id="desc" rows="3" placeholder="Description du Production Sientifique"></textarea>
-                                </div>
-
-                                <div class="text-center">
-                                    <button type="submit" name="submit" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Fournir</button>
-                                </div>
-
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            </ul>
         </div>
+        <!--************************************ Fournir Production Sientifique ************************************************************************* -->
 
-        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#ch">Afficher list chercheur</button>
-        <div id="ch" class="collapse">
-            <?php
-            $query = "SELECT * FROM utilisateurs";
+        <div class="row justify-content-center">
+            <div id="demo" class="collapse">
 
-            $users = mysqli_query($con, $query);
+                <form method="POST" action="" class="form" style="margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Fournir Production Sientifique</legend>
+                        <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+
+                                <label for="nom">Nom du PS</label>
+                                <input type="text" name="nom" class="inpt" id="nom" placeholder="Nom du production sientifique" required>
+
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="categorie">Catégorie</label>
+                                <input type="text" name="categorie" class="inpt" id="categorie" placeholder="Article,livre,conference..." required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="desc">Description</label>
+                            <textarea name="desc" class="inpt d-block" id="desc" rows="3" placeholder="Description du Production Sientifique"></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="submit" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Fournir</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
+        <!--************************************************************************************************************* -->
+
+        <div class="container-fluid">
+            <div id="ch" class="collapse">
+
+                <?php
+                $query = "SELECT * FROM utilisateurs";
+
+                $users = mysqli_query($con, $query);
 
 
 
-            if ($users->num_rows > 0) : ?>
-                <div class="container">
-                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheur</p>
+                if ($users->num_rows > 0) : ?>
+
+
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs</p>
+
+                    <table class="table table-striped table-hover text-center" style="margin-top: 50px; color: white;">
+
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prenom </th>
+                                <th>Contact </th>
+                                <th>Date de naissance </th>
+                                <th>Adresse </th>
+
+                            </tr>
+                            <?php while ($row = mysqli_fetch_assoc($users)) : ?>
+
+
+                                <tr>
+                                    <td><?= $row["nom"] ?></td>
+                                    <td><?= $row["prenom"] ?></td>
+                                    <td><?= $row["email"] ?></td>
+                                    <td><?= $row["date_nais"] ?></td>
+                                    <td><?= $row["adr"] ?></td>
+                                </tr>
+
+                            <?php endwhile; ?>
+                        </tbody>
+
+                    </table>
+
+
+                <?php endif; ?>
+
+            </div>
+
+        </div>
+        <!--************************************************************************************************************* -->
+        <div class="container-fluid">
+            <div id="equipe" class="collapse">
+                <?php
+                $query = "SELECT * FROM utilisateurs WHERE num_equipe = '$equipe'";
+
+                $users = mysqli_query($con, $query);
+
+                if ($users->num_rows > 0) : ?>
+
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs du meme Equipe</p>
 
                     <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
@@ -189,10 +268,106 @@ if (isset($_POST['submit'])) {
 
                     </table>
 
-                </div>
-            <?php endif; ?>
+
+                <?php endif; ?>
+
+
+            </div>
 
         </div>
+        <!--************************************************************************************************************* -->
+        <div class="container-fluid">
+            <div id="labo" class="collapse">
+                <?php
+                $query = "SELECT * FROM utilisateurs WHERE num_labo = '$labo'";
+
+                $users = mysqli_query($con, $query);
+
+                if ($users->num_rows > 0) : ?>
+
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs du meme Laboratoire</p>
+
+                    <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
+
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prenom </th>
+                                <th>Contact </th>
+                                <th>Date de naissance </th>
+                                <th>Adresse </th>
+
+                            </tr>
+                            <?php while ($row = mysqli_fetch_assoc($users)) : ?>
+
+
+                                <tr>
+                                    <td><?= $row["nom"] ?></td>
+                                    <td><?= $row["prenom"] ?></td>
+                                    <td><?= $row["email"] ?></td>
+                                    <td><?= $row["date_nais"] ?></td>
+                                    <td><?= $row["adr"] ?></td>
+                                </tr>
+
+                            <?php endwhile; ?>
+                        </tbody>
+
+                    </table>
+
+
+                <?php endif; ?>
+
+
+            </div>
+
+        </div>
+        <!--************************************************************************************************************* -->
+        <div class="container-fluid">
+            <div id="projet" class="collapse">
+                <?php
+                $query = "SELECT * FROM utilisateurs WHERE num_projet = '$projet'";
+
+                $users = mysqli_query($con, $query);
+
+                if ($users->num_rows > 0) : ?>
+
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs du meme Projet</p>
+
+                    <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
+
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prenom </th>
+                                <th>Contact </th>
+                                <th>Date de naissance </th>
+                                <th>Adresse </th>
+
+                            </tr>
+                            <?php while ($row = mysqli_fetch_assoc($users)) : ?>
+
+
+                                <tr>
+                                    <td><?= $row["nom"] ?></td>
+                                    <td><?= $row["prenom"] ?></td>
+                                    <td><?= $row["email"] ?></td>
+                                    <td><?= $row["date_nais"] ?></td>
+                                    <td><?= $row["adr"] ?></td>
+                                </tr>
+
+                            <?php endwhile; ?>
+                        </tbody>
+
+                    </table>
+
+
+                <?php endif; ?>
+
+
+            </div>
+
+        </div>
+        <!--************************************************************************************************************* -->
 
         <script type="text/javascript">
             document.title = "Espace Chercheur";
@@ -203,6 +378,8 @@ if (isset($_POST['submit'])) {
         </script>
 
     <?php endif; ?>
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

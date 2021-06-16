@@ -146,3 +146,32 @@
         -o-border-radius: 25px;
         margin-top: 40px;
     }
+
+    #list li {
+        background-color: rgb(18, 160, 196);
+        color: white;
+        margin-top: 20px;
+        text-align: center;
+        block-size: 60px;
+        padding-top: 19px;
+        padding-left: 30px;
+        padding-right: 30px;
+        border-radius: 20px;
+        box-shadow: -3px 5px 5px 3px rgba(65, 61, 61, 0.589);
+    }
+
+    #list li:hover {
+        background-color: rgb(9, 139, 172) ;
+    }
+
+    #list {
+        list-style-type: none;
+        margin-top: 50px;
+    }
+    #list a{
+        text-decoration: none;
+    }
+
+    nav {
+        padding-left: 30px;
+    }

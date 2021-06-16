@@ -68,56 +68,58 @@ $id = $_SESSION['id'];
     $result = mysqli_query($con, $query);
     ?>
 
-    <div id="tab" class="container">
-        <p class="display-4 text-center cap" style="color: white;">Mes Information</p>
+    <div id="tab" class="container ">
+        <p class="display-4 text-center cap" style="color: white; margin-top: 20px;">Mes Information</p>
         <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
             <tbody>
                 <tr>
                     <th>Nom : </th>
-                    <td><?= $user['nom'] ?></td>
+                    <td class="text-center"><?= $user['nom'] ?></td>
 
                 </tr>
                 <tr>
                     <th>Prenom : </th>
-                    <td><?= $user['prenom'] ?></td>
+                    <td class="text-center"><?= $user['prenom'] ?></td>
 
                 </tr>
                 <tr>
                     <th>Email : </th>
-                    <td><?= $user['email'] ?></td>
+                    <td class="text-center"><?= $user['email'] ?></td>
 
                 </tr>
                 <tr>
                     <th>Date de naissance : </th>
-                    <td><?= $user['date_nais'] ?></td>
+                    <td class="text-center"><?= $user['date_nais'] ?></td>
 
                 </tr>
                 <tr>
                     <th>Adresse : </th>
-                    <td><?= $user['adr'] ?></td>
+                    <td class="text-center"><?= $user['adr'] ?></td>
 
                 </tr>
             </tbody>
 
         </table>
-        <div class="text-center"> <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier les info</button></a></div>
-
-
+        <div class="text-center">
+            <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier les info</button></a>
+        </div>
 
 
         <?php if ($result->num_rows > 0) : ?>
             <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Mes Production Sientifique</p>
 
-            <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
+            <table class="table table-striped table-hover text-center" style="margin-top: 50px; color: white;">
 
                 <tbody>
+
                     <tr>
                         <th>Nom PS </th>
                         <th>Catégorie </th>
                         <th>Description </th>
 
                     </tr>
+
                     <?php while ($row = mysqli_fetch_assoc($result)) : ?>
 
 
@@ -129,9 +131,11 @@ $id = $_SESSION['id'];
                         </tr>
 
                     <?php endwhile; ?>
+
                 </tbody>
 
             </table>
+
         <?php endif; ?>
     </div>
 

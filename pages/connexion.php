@@ -17,12 +17,19 @@ if (isset($_POST['submit'])) {
     $sqli = mysqli_query($con, $sql);
 
     if (mysqli_num_rows($sqli) >= 1) {
+
         $user = mysqli_fetch_assoc($sqli);
-        $role =  $user["role"];
         $id =  $user["id"];
+        $role =  $user["role"];
+        $equipe =  $user["num_equipe"];
+        $labo =  $user["num_labo"];
+        $projet =  $user["num_projet"];
         $_SESSION['id'] = $id;
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
+        $_SESSION['equipe'] = $equipe;
+        $_SESSION['labo'] = $labo;
+        $_SESSION['projet'] = $projet;
 
         header('Location:index.php?r=' . $role);
     } else {
