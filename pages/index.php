@@ -26,6 +26,13 @@ if (isset($_POST['submit'])) {
     $saved = "Vous avez ajouter un PS";
 }
 
+if (isset($_POST['ajout'])) {
+    $email = $_POST['email'];
+
+    $query = "UPDATE utilisateurs SET num_equipe='$equipe',num_labo='$labo' WHERE email LIKE '$email'";
+    mysqli_query($con, $query) or die(mysqli_error($con));
+    $saved = "Vous avez ajouter un Chercheur";
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -85,6 +92,8 @@ if (isset($_POST['submit'])) {
 
     </nav>
 
+    <!--role == 0 c-à-d Visiteur -->
+
     <?php if ($role == 0) : ?>
 
         <div id="demo" class="carousel slide" data-ride="carousel">
@@ -104,16 +113,31 @@ if (isset($_POST['submit'])) {
         </div>
 
 
-        <script type="text/javascript">
+        <script>
             document.title = "Page d'accueil"
         </script>
 
-    <?php elseif ($role == 1) : ?>
-        <!--************************************************************************************************************* -->
+        <!-- role == 1 c-à-d Chercheur // role == 2 c-à-d Chef-equipe // role == 3 c-à-d Directeur  -->
 
+    <?php elseif ($role == 1 || $role == 2 || $role == 3) : ?>
 
-        <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Chercheur </h4>
-
+        <?php if ($role == 1) : ?>
+            <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Chercheur </h4>
+            <script>
+                document.title = "Espace Chercheur";
+            </script>
+        <?php elseif ($role == 2) : ?>
+            <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Chef D'équipe </h4>
+            <script>
+                document.title = "Espace Chef D'équipe";
+            </script>
+        <?php elseif ($role == 3) : ?>
+            <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Directeur </h4>
+            <script>
+                document.title = "Espace Directeur";
+            </script>
+        <?php endif; ?>
+        <!--************************************** *********************************************************************** -->
 
         <div class=" container">
             <ul id="list">
@@ -124,15 +148,30 @@ if (isset($_POST['submit'])) {
                 <a href="" data-toggle="collapse" data-target="#ch">
                     <li>Afficher list chercheurs</li>
                 </a>
-                <a href="" data-toggle="collapse" data-target="#equipe">
-                    <li>Afficher list chercheur du meme equipe</li>
-                </a>
-                <a href="" data-toggle="collapse" data-target="#labo">
-                    <li>Afficher list chercheur du meme laboratoire</li>
-                </a>
-                <a href="" data-toggle="collapse" data-target="#projet">
-                    <li>Afficher list chercheur du meme projet</li>
-                </a>
+
+                <?php if ($equipe != null) : ?>
+                    <a href="" data-toggle="collapse" data-target="#equipe">
+                        <li>Afficher list chercheur du meme equipe</li>
+                    </a>
+                    <a href="" data-toggle="collapse" data-target="#labo">
+                        <li>Afficher list chercheur du meme laboratoire</li>
+                    </a>
+                <?php endif; ?>
+
+                <?php if ($projet != null) : ?>
+                    <a href="" data-toggle="collapse" data-target="#projet">
+                        <li>Afficher list chercheur du meme projet</li>
+                    </a>
+                <?php endif; ?>
+
+                <?php if ($role == 2 || $role == 3) : ?>
+
+                    <a href="" data-toggle="collapse" data-target="#ajout">
+                        <li>Ajouter Chercheur</li>
+                    </a>
+
+                <?php endif; ?>
+
 
             </ul>
         </div>
@@ -369,8 +408,30 @@ if (isset($_POST['submit'])) {
         </div>
         <!--************************************************************************************************************* -->
 
-        <script type="text/javascript">
-            document.title = "Espace Chercheur";
+        <div class="row justify-content-center">
+            <div id="ajout" class="collapse">
+
+                <form method="POST" action="" class="form" style="margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Ajouter Chercheur</legend>
+
+                        <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input name="email" class="inpt d-block" id="email" placeholder="L'email du chercheur"></input>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="ajout" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Ajouter Chercheur</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+        <script>
             var body = document.getElementsByTagName('body')[0];
             body.style.backgroundImage = 'url(../img/la.jpg)';
             body.style.backgroundRepeat = 'no-repeat';
