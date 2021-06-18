@@ -11,7 +11,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     $labo = $_SESSION['labo'];
     $projet = $_SESSION['projet'];
 }
-
+// ******** Fournir production scientifique *****
 $nom = "";
 $categorie = "";
 $description = "";
@@ -24,15 +24,149 @@ if (isset($_POST['submit'])) {
     $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
     mysqli_query($con, $query) or die(mysqli_error($con));
     $saved = "Vous avez ajouter un PS";
-}
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ******** Ajouter chercheur *****
 
 if (isset($_POST['ajout'])) {
+
+    $email = $_POST['email'];
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE '$email'";
+    $result = mysqli_query($con, $sql);
+    $user = mysqli_fetch_assoc($result);
+    if ($user == null) {
+        $error = "Cet utilisateur n'existe pas vérifier l'email";
+    } else {
+        $query = "UPDATE utilisateurs SET num_equipe='$equipe',num_labo='$labo' WHERE email LIKE '$email'";
+        mysqli_query($con, $query) or die(mysqli_error($con));
+        $saved = "Vous avez ajouter un Chercheur dans l'équipe";
+    }
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ******** Supprimer chercheur *****
+
+if (isset($_POST['sup'])) {
     $email = $_POST['email'];
 
-    $query = "UPDATE utilisateurs SET num_equipe='$equipe',num_labo='$labo' WHERE email LIKE '$email'";
-    mysqli_query($con, $query) or die(mysqli_error($con));
-    $saved = "Vous avez ajouter un Chercheur";
-}
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
+    $result = mysqli_query($con, $sql);
+    $user = mysqli_fetch_assoc($result);
+
+    if ($email == $_SESSION['email'] || $user['role'] != 1 || $user['num_equipe'] != $equipe) {
+        $error = "Vous n'avez pas le droit de supprimer cet utilisateur";
+    } else {
+
+        $query = "UPDATE utilisateurs SET num_equipe= NULL,num_labo= NULL WHERE email LIKE '$email'";
+        mysqli_query($con, $query) or die(mysqli_error($con));
+        $saved = "Vous avez Supprimer un Chercheur de l'équipe ";
+    }
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ******** Créer une Equipe et  Ajouter ChefEquipe dedans *****
+
+if (isset($_POST['ajoutChef'])) {
+
+    $email = $_POST['email'];
+
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
+    $result = mysqli_query($con, $sql);
+    $user = mysqli_fetch_assoc($result);
+    $chef = $user['id']; // ****** récupérer l'id' du chef *******
+
+    if ($user['num_labo'] != $labo) {
+        $error = "Cet utilisateur n'appartient pas à ce laboratoire";
+    } elseif ($user['role'] == 2) {
+        $error = "Cet utilisateur est un Chef dans une autre équipe";
+    } else {
+
+        $query = "INSERT INTO `equipe`( `num_chef`, `num_labo`) VALUES ('$chef','$labo')";
+        mysqli_query($con, $query) or die(mysqli_error($con)); // *****  Créer une équipe  ******
+
+        $sql1 = "SELECT * FROM equipe WHERE num_chef LIKE'$chef'";
+        $result1 = mysqli_query($con, $sql1);
+        $eq = mysqli_fetch_assoc($result1);
+        $numeq =  $eq['num_equipe']; // ****** récupérer le numéro d'équipe que vous avez créé  *******
+
+        $query1 = "UPDATE utilisateurs SET role= 2,num_equipe='$numeq' WHERE email LIKE '$email'";
+        mysqli_query($con, $query1) or die(mysqli_error($con));
+        $saved = "Vous avez ajouter un Chef dans equipe n" . $numeq;
+    }
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ******** Supprimer Equipe et ChefEquipe *****
+
+if (isset($_POST['suppChef'])) {
+
+    $email = $_POST['email'];
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
+    $result = mysqli_query($con, $sql);
+    $user = mysqli_fetch_assoc($result);
+    $chef = $user['id']; // ****** récupérer l'id' du chef *******
+
+    if ($user['num_labo'] != $labo) {
+        $error = "Cet utilisateur n'appartient pas à ce laboratoire";
+    } elseif ($user['role'] != 2) {
+        $error = "Cet utilisateur n'est pas un Chef";
+    } else {
+
+        $sql1 = "SELECT * FROM equipe WHERE num_chef LIKE'$chef'";
+        $result1 = mysqli_query($con, $sql1);
+        $eq = mysqli_fetch_assoc($result1);
+        $numeq =  $eq['num_equipe']; // ****** récupérer le numéro d'équipe  *******
+
+        $query1 = "SELECT * FROM utilisateurs WHERE num_equipe ='$numeq'";
+        $users = mysqli_query($con, $query1); // ****** récupérer Tous les utilisateurs qui appartiennent à cette équipe  *******
+
+        if ($users->num_rows > 0) {
+            while ($row = mysqli_fetch_assoc($users)) {
+                $em = $row["email"];
+                $query2 = "UPDATE utilisateurs SET role= 1,num_equipe = NULL,num_labo= NULL WHERE email LIKE '$em'";
+                mysqli_query($con, $query2) or die(mysqli_error($con)); // *****  Mettre à jour les informations de l'utilisateur ******
+            }
+        }
+
+        $query = "DELETE FROM `equipe` WHERE num_chef ='$chef' ";
+        mysqli_query($con, $query) or die(mysqli_error($con)); // *****  Supprimer l'équipe  ******
+        $saved = "Vous avez supprimer léquipe numéro " . $numeq;
+    }
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ******** Modifier ChefEquipe *****
+
+if (isset($_POST['modChef'])) {
+
+    $email = $_POST['email1'];
+    $sql = "SELECT * FROM utilisateurs WHERE email LIKE'$email'";
+    $result = mysqli_query($con, $sql);
+    $user = mysqli_fetch_assoc($result);
+    $chefa = $user['id']; // ****** récupérer l'id' du ancien chef *******
+    $num = $user['num_equipe'];
+
+    $email1 = $_POST['email2'];
+    $sql1 = "SELECT * FROM utilisateurs WHERE email LIKE'$email1'";
+    $result1 = mysqli_query($con, $sql1);
+    $user1 = mysqli_fetch_assoc($result1);
+    $chefn = $user1['id']; // ****** récupérer l'id' du nouveau chef *******
+
+    if ($user['num_labo'] != $labo || $user1['num_labo'] != $labo) {
+        $error = "Cet utilisateur n'appartient pas à ce laboratoire";
+    } elseif ($user['role'] != 2) {
+        $error = "Cet utilisateur n'est pas un Chef";
+    } elseif ($user1['role'] != 1) {
+        $error = "Cet utilisateur est un chef dans une autre équipe";
+    } else {
+
+        $query = "UPDATE equipe SET num_chef='$chefn' WHERE num_chef='$chefa'";
+        mysqli_query($con, $query) or die(mysqli_error($con));
+
+        $query = "UPDATE utilisateurs SET role= 1 WHERE id LIKE '$chefa'";
+        mysqli_query($con, $query) or die(mysqli_error($con));
+
+        $query = "UPDATE utilisateurs SET role= 2, num_equipe='$num'WHERE id LIKE '$chefn'";
+        mysqli_query($con, $query) or die(mysqli_error($con));
+        $saved = "Vous avez modifier le chef de l'équipe numéro " . $num;
+    }
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <!doctype html>
 <html lang="en">
@@ -127,64 +261,102 @@ if (isset($_POST['ajout'])) {
                 document.title = "Espace Chercheur";
             </script>
         <?php elseif ($role == 2) : ?>
-            <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Chef D'équipe </h4>
+            <div class="row" style=" padding: 6px; padding-left: 60px; background-color: gray; color: white;">
+                <h4 class="col-8"> Espace Chef Equipe </h4>
+                <h5 class="col text-center" style="padding-top: 4px;"> Equipe numéro <?php echo $equipe ?> </h5>
+            </div>
             <script>
                 document.title = "Espace Chef D'équipe";
             </script>
         <?php elseif ($role == 3) : ?>
-            <h4 style=" padding: 10px; padding-left: 60px; background-color: gray; color: white;"> Espace Directeur </h4>
+            <div class="row" style=" padding: 6px; padding-left: 60px; background-color: gray; color: white;">
+                <h4 class="col-8"> Espace Directeur </h4>
+                <h5 class="col text-center" style="padding-top: 4px;"> Laboratoire numéro <?php echo $labo ?> </h5>
+            </div>
+
             <script>
                 document.title = "Espace Directeur";
             </script>
         <?php endif; ?>
         <!--************************************** *********************************************************************** -->
 
-        <div class=" container">
-            <ul id="list">
+        <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
+        <?= isset($error) ? "<p class= 'alert alert-danger'>$error</p>" : ""; ?>
 
-                <a href="" data-toggle="collapse" data-target="#demo">
-                    <li>Fournir des Producrions Scientifiques</li>
-                </a>
-                <a href="" data-toggle="collapse" data-target="#ch">
-                    <li>Afficher list chercheurs</li>
-                </a>
+        <div class="row" style="margin-left: 60px;">
+            <div class=" d-flex" style=" width:400px ;">
+                <ul id="list">
 
-                <?php if ($equipe != null) : ?>
-                    <a href="" data-toggle="collapse" data-target="#equipe">
-                        <li>Afficher list chercheur du meme equipe</li>
-                    </a>
-                    <a href="" data-toggle="collapse" data-target="#labo">
-                        <li>Afficher list chercheur du meme laboratoire</li>
-                    </a>
-                <?php endif; ?>
+                    <!--Fonctions Chercheur -->
 
-                <?php if ($projet != null) : ?>
-                    <a href="" data-toggle="collapse" data-target="#projet">
-                        <li>Afficher list chercheur du meme projet</li>
-                    </a>
-                <?php endif; ?>
-
-                <?php if ($role == 2 || $role == 3) : ?>
-
-                    <a href="" data-toggle="collapse" data-target="#ajout">
-                        <li>Ajouter Chercheur</li>
+                    <a href="" data-toggle="collapse" data-target="#demo">
+                        <li>Fournir des Producrions Scientifiques</li>
                     </a>
 
-                <?php endif; ?>
+                    <!--Fonctions Chef equipe -->
+
+                    <?php if ($role == 2 || $role == 3) : ?>
+
+                        <a href="" data-toggle="collapse" data-target="#ajout">
+                            <li>Ajouter Chercheur</li>
+                        </a>
+                        <a href="" data-toggle="collapse" data-target="#supp">
+                            <li>Supprimer Chercheur</li>
+                        </a>
+
+                        <!--Fonctions Directeur -->
+
+                        <?php if ($role == 3) : ?>
+                            <a href="" data-toggle="collapse" data-target="#ajoutChef">
+                                <li>Ajouter Chef</li>
+                            </a>
+                            <a href="" data-toggle="collapse" data-target="#suppChef">
+                                <li>Supprimer Chef</li>
+                            </a>
+                            <a href="" data-toggle="collapse" data-target="#modChef">
+                                <li>Modifier Chef</li>
+                            </a>
+                        <?php endif; ?>
+
+                        <!--Fin Fonctions Directeur -->
+
+                    <?php endif; ?>
+
+                    <!--Fin Fonctions Chef equipe -->
+
+                    <a href="" data-toggle="collapse" data-target="#ch">
+                        <li>Afficher list chercheurs</li>
+                    </a>
+
+                    <?php if ($equipe != null) : ?>
+                        <a href="" data-toggle="collapse" data-target="#equipe">
+                            <li>Afficher list chercheurs du meme equipe</li>
+                        </a>
+                        <a href="" data-toggle="collapse" data-target="#labo">
+                            <li>Afficher list chercheurs du laboratoire</li>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if ($projet != null) : ?>
+                        <a href="" data-toggle="collapse" data-target="#projet">
+                            <li>Afficher list chercheurs du meme projet</li>
+                        </a>
+                    <?php endif; ?>
+
+                    <!--Fin Fonctions Chercheur -->
+
+                </ul>
+            </div>
+            <!--************************************ Fournir Production Sientifique ************************************************************************* -->
 
 
-            </ul>
-        </div>
-        <!--************************************ Fournir Production Sientifique ************************************************************************* -->
-
-        <div class="row justify-content-center">
             <div id="demo" class="collapse">
 
-                <form method="POST" action="" class="form" style="margin-top: 50px;">
+                <form method="POST" action="" class="form" style="margin-left: 180px; margin-top: 50px;">
                     <fieldset>
 
                         <legend class="text-center display-4">Fournir Production Sientifique</legend>
-                        <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
+
 
                         <div class="form-row">
 
@@ -217,10 +389,127 @@ if (isset($_POST['ajout'])) {
 
             </div>
 
+
+            <div id="ajout" class="collapse">
+
+                <form method="POST" action="" class="form" style="margin-left: 300px;margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Ajouter Chercheur</legend>
+
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input name="email" class="inpt d-block" id="email" placeholder="L'email du chercheur"></input>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="ajout" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Ajouter Chercheur</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+            <div id="supp" class="collapse">
+
+                <form method="POST" action="" class="form" style="margin-left: 300px;margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Supprimer Chercheur</legend>
+
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input name="email" class="inpt d-block" id="email" placeholder="L'email du chercheur"></input>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="sup" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Supprimer Chercheur</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+            <div id="ajoutChef" class="collapse">
+
+                <form method="POST" action="" class="form" style="margin-left: 300px;margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Ajouter Chef</legend>
+
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input name="email" class="inpt d-block" id="email" placeholder="L'email du chercheur"></input>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="ajoutChef" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Ajouter Chef</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+            <div id="suppChef" class="collapse">
+
+                <form method="POST" action="" class="form" style="margin-left: 300px;margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Supprimer Chef</legend>
+
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input name="email" class="inpt d-block" id="email" placeholder="L'email du chercheur"></input>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="suppChef" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Supprimer Chef</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+            <div id="modChef" class="collapse">
+
+                <form method="POST" action="" class="form" style="margin-left: 300px;margin-top: 50px;">
+                    <fieldset>
+
+                        <legend class="text-center display-4">Modifier Chef</legend>
+
+
+                        <div class="form-group">
+                            <label for="email1">Ancien Chef</label>
+                            <input name="email1" type="email" class="inpt d-block" id="email1" placeholder="email du ancien Chef"></input>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email2">Nouveau Chef</label>
+                            <input name="email2" type="email" class="inpt d-block" id="email2" placeholder="email du nouveau Chef"></input>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" name="modChef" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Modifier Chef</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
         </div>
+
         <!--************************************************************************************************************* -->
 
-        <div class="container-fluid">
+        <div class="container-fluid ">
             <div id="ch" class="collapse">
 
                 <?php
@@ -406,31 +695,9 @@ if (isset($_POST['ajout'])) {
             </div>
 
         </div>
+
         <!--************************************************************************************************************* -->
 
-        <div class="row justify-content-center">
-            <div id="ajout" class="collapse">
-
-                <form method="POST" action="" class="form" style="margin-top: 50px;">
-                    <fieldset>
-
-                        <legend class="text-center display-4">Ajouter Chercheur</legend>
-
-                        <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input name="email" class="inpt d-block" id="email" placeholder="L'email du chercheur"></input>
-                        </div>
-
-                        <div class="text-center">
-                            <button type="submit" name="ajout" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Ajouter Chercheur</button>
-                        </div>
-
-                    </fieldset>
-                </form>
-
-            </div>
-        </div>
         <script>
             var body = document.getElementsByTagName('body')[0];
             body.style.backgroundImage = 'url(../img/la.jpg)';
@@ -445,6 +712,17 @@ if (isset($_POST['ajout'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('.collapse').on('show.bs.collapse', function() {
+                $('.collapse.show').each(function() {
+                    $(this).collapse('toggle');
+
+
+                });
+            });
+        });
+    </script>
 
 </body>
 

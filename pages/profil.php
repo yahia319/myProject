@@ -2,6 +2,31 @@
 include '../includes/bd.php';
 session_start();
 $id = $_SESSION['id'];
+
+$sql = "SELECT * FROM utilisateurs WHERE id ='$id' ";
+$sqli = mysqli_query($con, $sql);
+$user = mysqli_fetch_assoc($sqli);
+
+$query = "SELECT * FROM `production_sientifique` WHERE `num_chercheur` ='$id' ";
+$result = mysqli_query($con, $query);
+
+
+if (isset($_POST['sup'])) {
+    $nom = $_POST['nom'];
+
+    $sql = "SELECT * FROM production_sientifique WHERE nom_ps LIKE'$nom'";
+    $results = mysqli_query($con, $sql);
+    $nomps = mysqli_fetch_assoc($results);
+
+    if ($nomps == null) {
+        $error = "Il n'y a aucun production sientifique avec ce nom";
+    } else {
+
+        $query = "DELETE FROM `production_sientifique` WHERE nom_ps LIKE'$nom'";
+        mysqli_query($con, $query) or die(mysqli_error($con));
+        $saved = "Vous avez Supprimer un PS";
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -58,35 +83,25 @@ $id = $_SESSION['id'];
         </div>
 
     </nav>
-
-    <?php
-    $sql = "SELECT * FROM utilisateurs WHERE id ='$id' ";
-    $sqli = mysqli_query($con, $sql);
-    $user = mysqli_fetch_assoc($sqli);
-
-    $query = "SELECT * FROM `production_sientifique` WHERE `num_chercheur` ='$id' ";
-    $result = mysqli_query($con, $query);
-    ?>
+    <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
+    <?= isset($error) ? "<p class= 'alert alert-danger'>$error</p>" : ""; ?>
 
     <div id="tab" class="container ">
-        <p class="display-4 text-center cap" style="color: white; margin-top: 20px;">Mes Information</p>
+        <p class="display-4 text-center cap" style="color: white; margin-top: 20px;">Mes Informations</p>
         <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
             <tbody>
                 <tr>
                     <th>Nom : </th>
                     <td class="text-center"><?= $user['nom'] ?></td>
-
                 </tr>
                 <tr>
                     <th>Prenom : </th>
                     <td class="text-center"><?= $user['prenom'] ?></td>
-
                 </tr>
                 <tr>
                     <th>Email : </th>
                     <td class="text-center"><?= $user['email'] ?></td>
-
                 </tr>
                 <tr>
                     <th>Date de naissance : </th>
@@ -96,18 +111,35 @@ $id = $_SESSION['id'];
                 <tr>
                     <th>Adresse : </th>
                     <td class="text-center"><?= $user['adr'] ?></td>
-
                 </tr>
+                <?php if ($user['num_equipe'] != null) : ?>
+                    <tr>
+                        <th>Numéro d'équipe : </th>
+                        <td class="text-center"><?= $user['num_equipe'] ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($user['num_labo'] != null) : ?>
+                    <tr>
+                        <th>Numéro Labo : </th>
+                        <td class="text-center"><?= $user['num_labo'] ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($user['num_projet'] != null) : ?>
+                    <tr>
+                        <th>Numéro projet : </th>
+                        <td class="text-center"><?= $user['num_projet'] ?></td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
 
         </table>
         <div class="text-center">
-            <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier les info</button></a>
+            <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier mes informations</button></a>
         </div>
 
 
         <?php if ($result->num_rows > 0) : ?>
-            <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Mes Production Sientifique</p>
+            <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Mes Productions Sientifiques</p>
 
             <table class="table table-striped table-hover text-center" style="margin-top: 50px; color: white;">
 
@@ -137,7 +169,39 @@ $id = $_SESSION['id'];
             </table>
 
         <?php endif; ?>
+
     </div>
+    <div class="d-flex justify-content-center">
+        <div id="supp" class="collapse">
+
+            <form method="POST" action="profil.php" class="form" style="margin-top: 40px;">
+                <fieldset>
+
+                    <legend class="text-center display-4">Supprimer Production Sientifique</legend>
+
+
+                    <div class="form-group">
+                        <label for="nom">Nom</label>
+                        <input name="nom" class="inpt d-block" id="nom" placeholder="Le nom du PS"></input>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" name="sup" id="submit-btn" class="btn btn-primary w-50 p-2 text-center">Supprimer</button>
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+    <?php if ($result->num_rows > 0) : ?>
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 40px;">
+                <a class="modifier" data-toggle="collapse" data-target="#supp"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Supprimer un production scientifique</button></a>
+            </div>
+        </div>
+    <?php endif; ?>
+
 
 
     <script type="text/javascript">
