@@ -24,12 +24,14 @@ if (isset($_POST['submit'])) {
         $equipe =  $user["num_equipe"];
         $labo =  $user["num_labo"];
         $projet =  $user["num_projet"];
+        $nom =  $user["nom"];
         $_SESSION['id'] = $id;
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
         $_SESSION['equipe'] = $equipe;
         $_SESSION['labo'] = $labo;
         $_SESSION['projet'] = $projet;
+        $_SESSION['nom'] = $nom;
 
         header('Location:index.php?r=' . $role);
     } else {
