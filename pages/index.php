@@ -1,7 +1,5 @@
 <?php
 include '../includes/bd.php';
-include '../includes/notifications.php';
-
 session_start();
 $logged = false;
 $role = 0;
@@ -12,7 +10,6 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     $equipe = $_SESSION['equipe'];
     $labo = $_SESSION['labo'];
     $projet = $_SESSION['projet'];
-    $nom_utilisateur = $_SESSION['nom'];
 }
 // ******** Fournir production scientifique *****
 $nom = "";
@@ -26,52 +23,6 @@ if (isset($_POST['submit'])) {
 
     $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
     mysqli_query($con, $query) or die(mysqli_error($con));
-    
-    
-   // envoie notif
-   $emails = array();
-   
-    $sql = "SELECT email FROM utilisateurs, equipe WHERE utilisateurs.id = equipe.num_chef AND equipe.num_equipe =  " . $_SESSION['equipe'];
-  
-    $result = mysqli_query($con, $sql);
-    $email_chef_equipe_result = mysqli_fetch_assoc($result);
-    $email_chef_equipe = $email_chef_equipe_result['email']; 
-   
-    $sql = "SELECT email FROM utilisateurs, labo WHERE utilisateurs.id = labo.num_directeur AND labo.num_labo =  " . $_SESSION['labo'];
-   
-    $result = mysqli_query($con, $sql);
-    $email_dir_labo_result = mysqli_fetch_assoc($result);
-    $email_dir_labo = $email_dir_labo_result['email']; 
-    $emails[] = $email_dir_labo;
-    $emails[] = $email_chef_equipe;
-
-
-    // email utilisateurs ont même domaine d'intéret
-
-    $sql = "select DISTINCT email from utilisateurs,avoir_domaine,domaine_interet 
-    where utilisateurs.id = avoir_domaine.id_utilisateur and domaine_interet.num_domaine=avoir_domaine.num_domaine 
-    and domaine_interet.nom in ( 
-        select domaine_interet.nom from utilisateurs,avoir_domaine,domaine_interet 
-        where utilisateurs.id = avoir_domaine.id_utilisateur 
-        and domaine_interet.num_domaine=avoir_domaine.num_domaine and 
-        utilisateurs.id = ". $_SESSION["id"] .") ";
-    
-    
-    $result = mysqli_query($con, $sql);
-    
-    if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $em = $row["email"];
-            $emails[] = $em;
-           
-        }
-    } 
-   
-    
-    
-    notifyByEmail(implode(",",$emails),"nouvelle production scientifique",$nom_utilisateur,$nom,"LIEN Prod: TODO");
-
-
     $saved = "Vous avez ajouter un PS";
 } ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -215,12 +166,7 @@ if (isset($_POST['modChef'])) {
         mysqli_query($con, $query) or die(mysqli_error($con));
         $saved = "Vous avez modifier le chef de l'équipe numéro " . $num;
     }
-}
-
-$query = "SELECT * FROM utilisateurs where role = 1";
-
-$users = mysqli_query($con, $query);
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+} ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <!doctype html>
 <html lang="en">
@@ -568,7 +514,11 @@ $users = mysqli_query($con, $query);
             <div id="ch" class="collapse">
 
                 <?php
-               
+                $query = "SELECT * FROM utilisateurs";
+
+                $users = mysqli_query($con, $query);
+
+
 
                 if ($users->num_rows > 0) : ?>
 
