@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 15, 2021 at 04:27 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 7.3.27
+-- Generation Time: Jun 19, 2021 at 09:12 AM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `avoir_domaine`
+--
+
+CREATE TABLE `avoir_domaine` (
+  `id_utilisateur` int(11) NOT NULL,
+  `num_domaine` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `avoir_domaine`
+--
+
+INSERT INTO `avoir_domaine` (`id_utilisateur`, `num_domaine`) VALUES
+(13, 1),
+(13, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `domaine_interet`
+--
+
+CREATE TABLE `domaine_interet` (
+  `num_domaine` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `domaine_interet`
+--
+
+INSERT INTO `domaine_interet` (`num_domaine`, `nom`) VALUES
+(1, 'data science'),
+(2, 'Semantic Web');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `equipe`
 --
 
@@ -33,6 +71,13 @@ CREATE TABLE `equipe` (
   `num_labo` int(11) NOT NULL,
   `nbr_chercheur` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `equipe`
+--
+
+INSERT INTO `equipe` (`num_equipe`, `num_chef`, `num_labo`, `nbr_chercheur`) VALUES
+(1, 10, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -45,6 +90,13 @@ CREATE TABLE `labo` (
   `num_directeur` int(11) NOT NULL,
   `nbr_salle` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `labo`
+--
+
+INSERT INTO `labo` (`num_labo`, `num_directeur`, `nbr_salle`) VALUES
+(1, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -65,7 +117,17 @@ CREATE TABLE `production_sientifique` (
 
 INSERT INTO `production_sientifique` (`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES
 (9, '2nd', 'livre', '2nd description'),
-(9, 'first ps', 'article', 'first description');
+(9, 'first ps', 'article', 'first description'),
+(13, 'dsqsds', 'sqqdsd', ''),
+(13, 'LDS', 'info', 'test'),
+(13, 'lll', 'lll', 'll\r\n'),
+(13, 'OIP', 'PPO', 'sd'),
+(13, 'qdsqdk', 'sdsd', ''),
+(13, 'qsdsqd', 'sdqsd', ''),
+(13, 'qsdsqdsqdsd', 'sdsqd', ''),
+(13, 'sdsdsd', 'sdsd', ''),
+(13, 'sqdlkqsldj', 'sd', ''),
+(13, 'ze', 'ze', '');
 
 -- --------------------------------------------------------
 
@@ -127,14 +189,28 @@ CREATE TABLE `utilisateurs` (
 --
 
 INSERT INTO `utilisateurs` (`id`, `nom`, `prenom`, `email`, `pass`, `date_nais`, `adr`, `role`, `num_equipe`, `num_projet`, `num_labo`) VALUES
-(9, 'yahia', 'gduio', 'yahia.hallas19@gmail.com', 'yahia', '2021-06-03', 'EF', 1, NULL, NULL, NULL),
-(10, 'yahia', 'gduio', 'yh538331@gmail.com', 'yahia', '2021-06-05', 'tamalous', 1, NULL, NULL, NULL),
-(11, 'yahia', 'yahia', 'yh538335@gmail.com', 'yahia', '2021-06-09', 'tamalous', 1, NULL, NULL, NULL),
-(12, 'yahia', 'yahia', 'ahia.hallas19@gmail.com', 'yahia', '2021-06-17', 'EF', 1, NULL, NULL, NULL);
+(9, 'yahia directeur labo 1', 'gduio', 'yahia.hallas19@gmail.com', 'yahia', '2021-06-03', 'EF', 1, 1, NULL, 1),
+(10, 'yahia chef equipe 1', 'gduio', 'yh538331@gmail.com', 'yahia', '2021-06-05', 'tamalous', 1, 1, NULL, 1),
+(11, 'yahia', 'yahia', 'yh538335@gmail.com', 'yahia', '2021-06-09', 'tamalous', 1, 1, NULL, 1),
+(12, 'yahia', 'yahia', 'ahia.hallas19@gmail.com', 'yahia', '2021-06-17', 'EF', 2, 1, NULL, 1),
+(13, 'nas', 'che', 'nacer.cheniki@gmail.com', '1', '1990-04-21', 'ta', 1, 1, NULL, 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `avoir_domaine`
+--
+ALTER TABLE `avoir_domaine`
+  ADD KEY `id_utilisateur_index` (`id_utilisateur`),
+  ADD KEY `domaine_index` (`num_domaine`);
+
+--
+-- Indexes for table `domaine_interet`
+--
+ALTER TABLE `domaine_interet`
+  ADD PRIMARY KEY (`num_domaine`);
 
 --
 -- Indexes for table `equipe`
@@ -194,13 +270,13 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT for table `equipe`
 --
 ALTER TABLE `equipe`
-  MODIFY `num_equipe` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `num_equipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `labo`
 --
 ALTER TABLE `labo`
-  MODIFY `num_labo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `num_labo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `projet`
@@ -224,11 +300,18 @@ ALTER TABLE `salle`
 -- AUTO_INCREMENT for table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `avoir_domaine`
+--
+ALTER TABLE `avoir_domaine`
+  ADD CONSTRAINT `avoir_domaine_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateurs` (`id`),
+  ADD CONSTRAINT `avoir_domaine_ibfk_2` FOREIGN KEY (`num_domaine`) REFERENCES `domaine_interet` (`num_domaine`);
 
 --
 -- Constraints for table `equipe`
