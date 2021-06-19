@@ -265,7 +265,7 @@ $users = mysqli_query($con, $query);
                 <ul id="h" class="navbar-nav ml-auto">
 
                     <?php if ($logged) : ?>
-                        <li class="nav-item "><a class="nav-link " href="profil.php">Mon Profil</a></li>
+                        <li class="nav-item "><a class="nav-link " href="profil.php"><span class="fa fa-user-circle"></span> Mon Profil</a></li>
                         <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="logout.php"><span class="fas fa-sign-out-alt "></span> Se déconnecter </a></button></li>
                     <?php else : ?>
                         <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="connexion.php"><span class="fas fa-sign-in-alt "></span> Connexion</a></button></li>
@@ -329,6 +329,7 @@ $users = mysqli_query($con, $query);
 
             <script>
                 document.title = "Espace Directeur";
+                
             </script>
         <?php endif; ?>
         <!--************************************** *********************************************************************** -->

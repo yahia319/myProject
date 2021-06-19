@@ -72,7 +72,7 @@ if (isset($_POST['sup'])) {
                 <ul id="h" class="navbar-nav ml-auto">
 
 
-                    <li class="nav-item "><a class="nav-link active" href="profil.php">Mon Profil</a></li>
+                    <li class="nav-item "><a class="nav-link active" href="profil.php"><span class="fa fa-user-circle"></span> Mon Profil</a></li>
                     <li class=""><button id="con-btn" class="bg-dark"><a class="nav-link active" href="logout.php"><span class="fas fa-sign-out-alt "></span> Se déconnecter </a></button></li>
 
 
