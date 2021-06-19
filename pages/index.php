@@ -248,7 +248,8 @@ if (isset($_POST['modChef'])) {
 
 
         <script>
-            document.title = "Page d'accueil"
+            document.title = "Page d'accueil";
+            document.body.style.overflow = 'hidden';
         </script>
 
         <!-- role == 1 c-à-d Chercheur // role == 2 c-à-d Chef-equipe // role == 3 c-à-d Directeur  -->
@@ -325,21 +326,21 @@ if (isset($_POST['modChef'])) {
                     <!--Fin Fonctions Chef equipe -->
 
                     <a href="" data-toggle="collapse" data-target="#ch">
-                        <li>Afficher list chercheurs</li>
+                        <li>Afficher liste chercheurs</li>
                     </a>
 
                     <?php if ($equipe != null) : ?>
                         <a href="" data-toggle="collapse" data-target="#equipe">
-                            <li>Afficher list chercheurs du meme equipe</li>
+                            <li>Afficher liste chercheurs du equipe</li>
                         </a>
                         <a href="" data-toggle="collapse" data-target="#labo">
-                            <li>Afficher list chercheurs du laboratoire</li>
+                            <li>Afficher liste chercheurs du laboratoire</li>
                         </a>
                     <?php endif; ?>
 
                     <?php if ($projet != null) : ?>
                         <a href="" data-toggle="collapse" data-target="#projet">
-                            <li>Afficher list chercheurs du meme projet</li>
+                            <li>Afficher liste chercheurs du meme projet</li>
                         </a>
                     <?php endif; ?>
 
@@ -522,7 +523,7 @@ if (isset($_POST['modChef'])) {
                 if ($users->num_rows > 0) : ?>
 
 
-                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs</p>
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Liste Des Chercheurs</p>
 
                     <table class="table table-striped table-hover text-center" style="margin-top: 50px; color: white;">
 
@@ -567,7 +568,7 @@ if (isset($_POST['modChef'])) {
 
                 if ($users->num_rows > 0) : ?>
 
-                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs du meme Equipe</p>
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Liste Des Chercheurs du meme Equipe</p>
 
                     <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
@@ -613,7 +614,7 @@ if (isset($_POST['modChef'])) {
 
                 if ($users->num_rows > 0) : ?>
 
-                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs du meme Laboratoire</p>
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Liste Des Chercheurs du meme Laboratoire</p>
 
                     <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
@@ -659,7 +660,7 @@ if (isset($_POST['modChef'])) {
 
                 if ($users->num_rows > 0) : ?>
 
-                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">List Des Chercheurs du meme Projet</p>
+                    <p class="display-4 text-center cap" style="margin-top: 50px; color: white;">Liste Des Chercheurs du meme Projet</p>
 
                     <table class="table table-striped table-hover" style="margin-top: 50px; color: white;">
 
@@ -703,6 +704,7 @@ if (isset($_POST['modChef'])) {
             body.style.backgroundImage = 'url(../img/la.jpg)';
             body.style.backgroundRepeat = 'no-repeat';
             body.style.backgroundSize = 'cover';
+            document.documentElement.style.overflowX = 'hidden';
         </script>
 
     <?php endif; ?>

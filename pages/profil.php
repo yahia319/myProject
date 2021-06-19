@@ -134,7 +134,7 @@ if (isset($_POST['sup'])) {
 
         </table>
         <div class="text-center">
-            <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier mes informations</button></a>
+            <a class="modifier" href="update.php"><button id="submit-btn" class="btn btn-success w-50 p-2 text-center">Modifier Profil</button></a>
         </div>
 
 

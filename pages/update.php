@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Mon Profil</title>
+    <title>Modifier Profil</title>
 
 </head>
 
@@ -97,7 +97,7 @@ if (isset($_POST['submit'])) {
                 <form method="POST" class="form" action="" style="margin-bottom: 120px;">
                     <fieldset>
 
-                        <legend class="text-center display-4">Modifier Les Info</legend>
+                        <legend class="text-center display-4">Modifier Profil</legend>
                         <?= isset($error) ? "<p class= 'alert alert-danger'>$error</p>" : ""; ?>
                         <?= isset($saved) ? "<p class= 'alert alert-success'>$saved</p>" : ""; ?>
                         <div class="form-row">

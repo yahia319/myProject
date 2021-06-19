@@ -19,7 +19,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Mon Profil</title>
+    <title>A propros nous</title>
 
 </head>
 
@@ -66,7 +66,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
 
     </nav>
 
-    <div class="cap " style="margin-top: 200px;">
+    <div class="cap " style="margin-top: 200px; padding-bottom: 70px;">
         <h1 class="text-center display-4">A propros nous</h1><br>
 
         <h5>
