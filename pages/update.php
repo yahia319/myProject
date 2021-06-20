@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
                         <a class="nav-link" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
+                        <a class="nav-link" href="contact.php">contactez nous</a>
                     </li>
 
                 </ul>

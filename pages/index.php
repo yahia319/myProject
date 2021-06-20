@@ -137,7 +137,7 @@ if (isset($_POST['ajoutChef'])) {
 
         $query1 = "UPDATE utilisateurs SET role= 2,num_equipe='$numeq' WHERE email LIKE '$email'";
         mysqli_query($con, $query1) or die(mysqli_error($con));
-        $saved = "Vous avez ajouter un Chef dans equipe n" . $numeq;
+        $saved = "Vous avez ajouter un Chef dans equipe numéro" . $numeq;
     }
 } ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -257,7 +257,7 @@ $users = mysqli_query($con, $query);
                         <a class="nav-link" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
+                        <a class="nav-link" href="contact.php">contactez nous</a>
                     </li>
 
                 </ul>
@@ -329,7 +329,6 @@ $users = mysqli_query($con, $query);
 
             <script>
                 document.title = "Espace Directeur";
-                
             </script>
         <?php endif; ?>
         <!--************************************** *********************************************************************** -->
@@ -753,7 +752,13 @@ $users = mysqli_query($con, $query);
             body.style.backgroundImage = 'url(../img/la.jpg)';
             body.style.backgroundRepeat = 'no-repeat';
             body.style.backgroundSize = 'cover';
+            document.documentElement.style.overflowX = 'hidden';
         </script>
+
+    <?php elseif ($role == 4 ) : ?>
+
+        <?php header('Location: dashboard.php');?>
+
 
     <?php endif; ?>
 

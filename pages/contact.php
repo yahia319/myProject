@@ -41,7 +41,7 @@ if (isset($_SESSION['email']) && $_SESSION['email']) {
                         <a class="nav-link" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="contact.php">Contact</a>
+                        <a class="nav-link active" href="contact.php">contactez nous</a>
                     </li>
 
                 </ul>
