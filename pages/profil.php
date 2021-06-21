@@ -60,12 +60,12 @@ if (isset($_POST['sup'])) {
                     <li class="nav-item ">
                         <a class="nav-link" href="index.php">Accueil</a>
                     </li>
-                    <?php if ($id != 9) : ?>
+                    <?php if ($id != 1) : ?>
                         <li class="nav-item">
                             <a class="nav-link" href="aboutus.php">A propros de nous</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.php">contactez nous</a>
+                            <a class="nav-link" href="">contactez nous</a>
                         </li>
 
                     <?php endif; ?>

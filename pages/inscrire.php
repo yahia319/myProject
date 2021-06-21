@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
         $error = "deja exist,  <a href='connexion.php'>connecter ?</a>";
     } else {
         $query = " INSERT INTO utilisateurs(nom,prenom,email,pass,date_nais,adr,role) VALUES ('$nom','$prenom','$email','$pass','$date_nais','$adr','1')";
-        mysqli_query($con, $query) or die("erreur base de données");
+        mysqli_query($con, $query) or die(mysqli_error($con));
         $connecter = "Vous êtes inscrit maintenant,  <a href='connexion.php'>connecter ?</a>";
     }
 }

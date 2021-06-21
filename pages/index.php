@@ -24,54 +24,23 @@ if (isset($_POST['submit'])) {
     $categorie = $_POST['categorie'];
     $description = $_POST['desc'];
 
-    $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
-    mysqli_query($con, $query) or die(mysqli_error($con));
-
-
-    // envoie notif
-    $emails = array();
-
-    $sql = "SELECT email FROM utilisateurs, equipe WHERE utilisateurs.id = equipe.num_chef AND equipe.num_equipe =  " . $_SESSION['equipe'];
-
+    $sql = "SELECT * FROM production_sientifique WHERE nom_ps LIKE '$nom'";
     $result = mysqli_query($con, $sql);
-    $email_chef_equipe_result = mysqli_fetch_assoc($result);
-    $email_chef_equipe = $email_chef_equipe_result['email'];
+    $ps = mysqli_fetch_assoc($result);
 
-    $sql = "SELECT email FROM utilisateurs, labo WHERE utilisateurs.id = labo.num_directeur AND labo.num_labo =  " . $_SESSION['labo'];
+    if ($ps == null) {
+        $query = " INSERT INTO `production_sientifique`(`num_chercheur`, `nom_ps`, `categorie_ps`, `description`) VALUES ('$id','$nom','$categorie','$description')";
+        mysqli_query($con, $query) or die(mysqli_error($con));
 
-    $result = mysqli_query($con, $sql);
-    $email_dir_labo_result = mysqli_fetch_assoc($result);
-    $email_dir_labo = $email_dir_labo_result['email'];
-    $emails[] = $email_dir_labo;
-    $emails[] = $email_chef_equipe;
-
-
-    // email utilisateurs ont même domaine d'intéret
-
-    $sql = "select DISTINCT email from utilisateurs,avoir_domaine,domaine_interet 
-    where utilisateurs.id = avoir_domaine.id_utilisateur and domaine_interet.num_domaine=avoir_domaine.num_domaine 
-    and domaine_interet.nom in ( 
-        select domaine_interet.nom from utilisateurs,avoir_domaine,domaine_interet 
-        where utilisateurs.id = avoir_domaine.id_utilisateur 
-        and domaine_interet.num_domaine=avoir_domaine.num_domaine and 
-        utilisateurs.id = " . $_SESSION["id"] . ") ";
-
-
-    $result = mysqli_query($con, $sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $em = $row["email"];
-            $emails[] = $em;
-        }
+    $saved = "Vous avez ajouter un Production Sientifique";
+    }else{
+        $error   = "Déja existe";
     }
 
 
 
-    notifyByEmail(implode(",", $emails), "nouvelle production scientifique", $nom_utilisateur, $nom, "LIEN Prod: TODO");
 
 
-    $saved = "Vous avez ajouter un PS";
 } ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ******** Ajouter chercheur *****
@@ -257,7 +226,7 @@ $users = mysqli_query($con, $query);
                         <a class="nav-link" href="aboutus.php">A propros de nous</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.php">contactez nous</a>
+                        <a class="nav-link" href="">contactez nous</a>
                     </li>
 
                 </ul>
@@ -755,9 +724,9 @@ $users = mysqli_query($con, $query);
             document.documentElement.style.overflowX = 'hidden';
         </script>
 
-    <?php elseif ($role == 4 ) : ?>
+    <?php elseif ($role == 4) : ?>
 
-        <?php header('Location: dashboard.php');?>
+        <?php header('Location: dashboard.php'); ?>
 
 
     <?php endif; ?>

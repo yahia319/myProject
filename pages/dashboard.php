@@ -351,7 +351,7 @@ if (isset($_POST['modRessource'])) {
 
 </head>
 
-<body style="background-image: url('../img/admin.jpg'); background-repeat: no-repeat; background-size: cover; color: white;">
+<body style="background-image: url('../img/admin2.jpg'); background-repeat: no-repeat; background-size: cover; color: white;">
     <nav class="navbar navbar-dark bg-dark navbar-expand-md ">
         <div class="container-fluid">
 
